@@ -229,10 +229,10 @@ export class UserManager extends OidcClient {
                         Log.error("UserManager._validateIdTokenFromTokenRefreshToken: sub in id_token does not match current sub");
                         return Promise.reject(new Error("sub in id_token does not match current sub"));
                     }
-                    if (payload.auth_time && payload.auth_time !== profile.auth_time) {
-                        Log.error("UserManager._validateIdTokenFromTokenRefreshToken: auth_time in id_token does not match original auth_time");
-                        return Promise.reject(new Error("auth_time in id_token does not match original auth_time"));
-                    }
+                    // if (payload.auth_time && payload.auth_time !== profile.auth_time) {
+                    //     Log.error("UserManager._validateIdTokenFromTokenRefreshToken: auth_time in id_token does not match original auth_time");
+                    //     return Promise.reject(new Error("auth_time in id_token does not match original auth_time"));
+                    // }
                     if (payload.azp && payload.azp !== profile.azp) {
                         Log.error("UserManager._validateIdTokenFromTokenRefreshToken: azp in id_token does not match original azp");
                         return Promise.reject(new Error("azp in id_token does not match original azp"));
@@ -245,7 +245,7 @@ export class UserManager extends OidcClient {
             });
         });
     }
-    
+
     _signinSilentIframe(args = {}) {
         let url = args.redirect_uri || this.settings.silent_redirect_uri || this.settings.redirect_uri;
         if (!url) {
@@ -355,9 +355,9 @@ export class UserManager extends OidcClient {
             })
             .catch(err => {
                 if (err.session_state && this.settings.monitorAnonymousSession) {
-                    if (err.message == "login_required" || 
-                        err.message == "consent_required" || 
-                        err.message == "interaction_required" || 
+                    if (err.message == "login_required" ||
+                        err.message == "consent_required" ||
+                        err.message == "interaction_required" ||
                         err.message == "account_selection_required"
                     ) {
                         Log.info("UserManager.querySessionStatus: querySessionStatus success for anonymous user");
@@ -574,7 +574,7 @@ export class UserManager extends OidcClient {
                             if (!atSuccess && !rtSuccess) {
                                 Log.debug("UserManager.revokeAccessToken: no need to revoke due to no token(s), or JWT format");
                             }
-                            
+
                             return atSuccess || rtSuccess;
                         });
                 });
